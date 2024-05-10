@@ -1,0 +1,17 @@
+
+
+app:
+  name: online-shop
+  port: 4000
+
+db:
+  host: localhost
+  port: 5432
+  name: go_online_shop
+  user: ibra
+  password: root
+  connection_pool:
+    max_idle_connection: 10
+    max_open_connection: 30
+    max_lifetime_connection: 60 #second
+    max_idleTime_connection: 60 #second
