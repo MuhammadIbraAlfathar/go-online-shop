@@ -15,6 +15,7 @@ func main() {
 
 	db, err := database.ConnectPostgres(config.Cfg.DB)
 	if err != nil {
+		log.Printf("error connect db")
 		panic(err)
 	}
 
