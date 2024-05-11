@@ -19,7 +19,7 @@ func (r repository) CreateAuth(ctx context.Context, model AuthenticationEntity) 
 
 	query := `INSERT INTO auth (
                   email, password, role, created_at, updated_at
-                  ) VALUES (:email:, :password:, :role:, :created_at:, :updated_at:)`
+                  ) VALUES (:email, :password, :role, :created_at, :updated_at)`
 
 	stmt, err := r.db.PrepareNamedContext(ctx, query)
 	if err != nil {
