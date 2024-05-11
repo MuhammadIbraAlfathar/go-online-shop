@@ -20,11 +20,11 @@ type AuthenticationEntity struct {
 }
 
 func (a AuthenticationEntity) Validate() (err error) {
-	if err := a.ValidateEmail(); err != nil {
+	if err = a.ValidateEmail(); err != nil {
 		return
 	}
 
-	if err := a.ValidatePassword(); err != nil {
+	if err = a.ValidatePassword(); err != nil {
 		return
 	}
 	return
