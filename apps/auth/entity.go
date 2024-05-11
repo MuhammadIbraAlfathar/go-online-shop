@@ -3,6 +3,7 @@ package auth
 import (
 	"github.com/MuhammadIbraAlfathar/go-online-shop/infra/response"
 	"strings"
+	"time"
 )
 
 type Role string
@@ -13,10 +14,22 @@ const (
 )
 
 type AuthenticationEntity struct {
-	Id       int
-	Email    string
-	Password string
-	Role     Role
+	Id        int       `db:"id"`
+	Email     string    `db:"email"`
+	Password  string    `db:"password"`
+	Role      Role      `db:"role"`
+	CreatedAt time.Time `db:"created_at"`
+	UpdatedAt time.Time `db:"updated_at"`
+}
+
+func NewFromRegisterRequest(req RequestRegisterPayload) AuthenticationEntity {
+	return AuthenticationEntity{
+		Email:     req.Email,
+		Password:  req.Password,
+		Role:      ROLE_User,
+		CreatedAt: time.Now(),
+		UpdatedAt: time.Now(),
+	}
 }
 
 func (a AuthenticationEntity) Validate() (err error) {
