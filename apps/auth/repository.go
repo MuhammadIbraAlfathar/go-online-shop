@@ -2,6 +2,8 @@ package auth
 
 import (
 	"context"
+	"database/sql"
+	"github.com/MuhammadIbraAlfathar/go-online-shop/infra/response"
 	"github.com/jmoiron/sqlx"
 )
 
@@ -29,5 +31,21 @@ func (r repository) CreateAuth(ctx context.Context, model AuthenticationEntity) 
 	defer stmt.Close()
 
 	_, err = stmt.ExecContext(ctx, model)
+	return
+}
+
+func (r repository) GetAuthByEmail(ctx context.Context, email string) (model AuthenticationEntity, err error) {
+	query := `SELECT id, email, password, role, created_at, updated_at FROM auth WHERE email=$1`
+
+	err = r.db.GetContext(ctx, &model, query, email)
+
+	if err != nil {
+		if err == sql.ErrNoRows {
+			err = response.ErrNotFound
+			return
+		}
+		return
+	}
+
 	return
 }

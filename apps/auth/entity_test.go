@@ -3,6 +3,8 @@ package auth
 import (
 	"github.com/MuhammadIbraAlfathar/go-online-shop/infra/response"
 	"github.com/test-go/testify/assert"
+	"golang.org/x/crypto/bcrypt"
+	"log"
 	"testing"
 )
 
@@ -58,5 +60,21 @@ func TestValidateEntityAuth(t *testing.T) {
 		err := authEntity.Validate()
 		assert.NotNil(t, err)
 		assert.Equal(t, response.ErrEmailRequired, err)
+	})
+}
+
+func TestEncryptPassword(t *testing.T) {
+	t.Run("success", func(t *testing.T) {
+		authEntity := AuthenticationEntity{
+			Email:    "testing@gmail.com",
+			Password: "test12344",
+		}
+
+		err := authEntity.EncryptPassword(bcrypt.DefaultCost)
+
+		assert.Nil(t, err)
+
+		log.Printf("%+v\n", authEntity)
+
 	})
 }

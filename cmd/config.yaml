@@ -1,6 +1,8 @@
 app:
   name: go_online_shop
   port: ":4000"
+  encryption:
+    salt: 10
 
 db:
   host: localhost

@@ -2,6 +2,7 @@ package auth
 
 import (
 	"github.com/MuhammadIbraAlfathar/go-online-shop/infra/response"
+	"golang.org/x/crypto/bcrypt"
 	"strings"
 	"time"
 )
@@ -67,4 +68,30 @@ func (a AuthenticationEntity) ValidatePassword() (err error) {
 	}
 
 	return
+}
+
+func (a *AuthenticationEntity) EncryptPassword(salt int) (err error) {
+	passwordEncrypt, err := bcrypt.GenerateFromPassword([]byte(a.Password), bcrypt.DefaultCost)
+	if err != nil {
+		return
+	}
+
+	a.Password = string(passwordEncrypt)
+	return nil
+}
+
+func (a AuthenticationEntity) IsExits() bool {
+	//if a.Id == 0 {
+	//	return response.ErrAuthIsNotExists
+	//}
+
+	return a.Id != 0
+}
+
+func (a AuthenticationEntity) VerifyPasswordFromEncrypted(plain string) (err error) {
+	return bcrypt.CompareHashAndPassword([]byte(a.Password), []byte(plain))
+}
+
+func (a AuthenticationEntity) VerifyPasswordFromPlain(encrypted string) (err error) {
+	return bcrypt.CompareHashAndPassword([]byte(encrypted), []byte(a.Password))
 }
